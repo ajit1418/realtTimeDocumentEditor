@@ -86,7 +86,7 @@ function DocumentList() {
                   type="text"
                   value={newDocumentTitle}
                   onChange={(e) => setNewDocumentTitle(e.target.value)}
-                  placeholder="New Document Title"
+                  placeholder="Type here..."
                   className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
                   required
                 />
@@ -106,7 +106,7 @@ function DocumentList() {
                   type="text"
                   value={joinDocumentId}
                   onChange={(e) => setJoinDocumentId(e.target.value)}
-                  placeholder="Document ID to Join"
+                  placeholder="Join By ID"
                   className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400"
                   required
                 />

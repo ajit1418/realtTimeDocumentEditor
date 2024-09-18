@@ -25,7 +25,7 @@ function DocumentList() {
 
   const createDocument = async (e) => {
     e.preventDefault();
-    if(newDocumentTitle){
+    if (newDocumentTitle) {
       try {
         await axios.post(
           "http://localhost:5000/documents",
@@ -39,15 +39,15 @@ function DocumentList() {
       } catch (error) {
         console.error("Error creating document:", error);
       }
-    }else{
+    } else {
       toast.error("Document title can't be empty");
     }
-  
+
   };
 
   const joinDocument = async (e) => {
     e.preventDefault();
-    if(joinDocumentId){
+    if (joinDocumentId) {
       try {
         await axios.post(
           `http://localhost:5000/documents/${joinDocumentId}/join`,
@@ -62,114 +62,91 @@ function DocumentList() {
       } catch (error) {
         console.error("Error joining document:", error);
       }
-    }else{
+    } else {
       toast.error("Document Id can't be empty");
     }
   };
 
   return (
-    <div>
-      <ToastContainer/>
-    <div
-      style={{
-        backgroundColor: "#f9f9f9",
-        padding: "20px",
-        borderRadius: "10px",
-        boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.1)",
-        width: "400px",
-        textAlign: "center",
-        position: "absolute",
-        top: "50%",
-        left: "50%",
-        transform: "translate(-50%, -50%)",
-      }}
-    >
-      
-      <h2>Your Documents</h2>
-      
-      <ol>
-        {
-        documents.length>0?
-        (
-          documents.map((doc) => (
-            <li key={doc._id}>
-              <Link to={`/document/${doc._id}`}>{doc.title}</Link>
-            </li>
-          ))
-        ):
-        <p>No document is present</p>
-      }
-        
-      </ol>
+    <div className="min-h-screen flex items-center justify-center bg-gray-100">
+      <div className="flex w-full max-w-6xl p-6 space-x-10">
 
-      <h2
-      style={{
-        marginTop:'50px'
-      }}
-      >--------- Document Action --------- </h2>
+        {/* Left Section: Fixed Form */}
+        <div className="p-6 bg-white rounded-lg shadow-lg max-w-6xl mx-auto space-y-6">
+          {/* Title */}
+          <h2 className="text-2xl font-semibold text-gray-700 mb-6">Document Actions</h2>
+
+          {/* Forms Section - Flexbox to display side-by-side */}
+          <div className="flex space-x-6">
+
+            {/* Left Form: Create Document */}
+            <div className="w-1/2">
+              <form onSubmit={createDocument} className="space-y-4">
+                <input
+                  type="text"
+                  value={newDocumentTitle}
+                  onChange={(e) => setNewDocumentTitle(e.target.value)}
+                  placeholder="New Document Title"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+                  required
+                />
+                <button
+                  type="submit"
+                  className="w-full px-4 py-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 transition duration-300"
+                >
+                  Create Document
+                </button>
+              </form>
+            </div>
+
+            {/* Right Form: Join Document */}
+            <div className="w-1/2">
+              <form onSubmit={joinDocument} className="space-y-4">
+                <input
+                  type="text"
+                  value={joinDocumentId}
+                  onChange={(e) => setJoinDocumentId(e.target.value)}
+                  placeholder="Document ID to Join"
+                  className="w-full px-4 py-2 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-green-400"
+                  required
+                />
+                <button
+                  type="submit"
+                  className="w-full px-4 py-2 bg-green-500 text-white rounded-md hover:bg-green-600 transition duration-300"
+                >
+                  Join Document
+                </button>
+              </form>
+            </div>
+
+          </div>
+        </div>
 
 
-      <form onSubmit={createDocument}>
-        <input
-          type="text"
-          value={newDocumentTitle}
-          onChange={(e) => setNewDocumentTitle(e.target.value)}
-          placeholder="New Document Title"
-          style={{
-            marginBottom: "10px",
-            padding: "8px",
-            width: "100%",
-            borderRadius: "5px",
-            border: "1px solid #ddd",
-          }}
-        />
-        <button
-          type="submit"
-          style={{
-            padding: "8px",
-            width: "100%",
-            backgroundColor: "#1877f2",
-            color: "white",
-            border: "none",
-            borderRadius: "5px",
-            cursor: "pointer",
-            marginBottom: "20px",
-          }}
-        >
-          Create Document
-        </button>
-      </form>
-      <form onSubmit={joinDocument}>
-        <input
-          type="text"
-          value={joinDocumentId}
-          onChange={(e) => setJoinDocumentId(e.target.value)}
-          placeholder="Document ID to Join"
-          style={{
-            marginBottom: "10px",
-            padding: "8px",
-            width: "100%",
-            borderRadius: "5px",
-            border: "1px solid #ddd",
-          }}
-        />
-        <button
-          type="submit"
-          style={{
-            padding: "8px",
-            width: "100%",
-            backgroundColor: "#4CAF50",
-            color: "white",
-            border: "none",
-            borderRadius: "5px",
-            cursor: "pointer",
-          }}
-        >
-          Join Document
-        </button>
-      </form>
+        {/* Right Section: Scrollable Document List */}
+        <div className="w-1/2 bg-white p-6 rounded-lg shadow-lg h-[500px] overflow-y-auto">
+          <h2 className="text-xl font-semibold text-gray-700 mb-4">Your Documents</h2>
+          {documents.length > 0 ? (
+            <ul className="space-y-2">
+              {documents.map((doc) => (
+                <li key={doc._id} className="p-3 bg-gray-100 rounded-md hover:bg-gray-200">
+                  <Link
+                    to={`/document/${doc._id}`}
+                    className="text-blue-500 hover:underline font-medium"
+                  >
+                    {doc.title}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          ) : (
+            <p className="text-gray-500 text-center">No document is present</p>
+          )}
+        </div>
+      </div>
     </div>
-    </div>
+
+
   );
 }
 

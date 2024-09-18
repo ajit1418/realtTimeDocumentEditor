@@ -49,37 +49,54 @@ function DocumentEdit() {
   };
 
   return (
-    <div>
-      <h2>{document.title}</h2>
-      <div>
-        <div style={{ marginBottom: '10px' }}>
-          <button onClick={copyDocumentId}>
+    <div className="p-6 bg-white rounded-lg shadow-lg max-w-4xl mx-auto space-y-4">
+      {/* Document Title */}
+      <h2 className="text-2xl font-semibold text-gray-700">{document.title}</h2>
+
+      {/* Collaborators and Copy Button */}
+      <div className="mb-4">
+        {/* <div className="flex items-center mb-2">
+          <button
+            onClick={copyDocumentId}
+            className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition duration-300"
+          >
             Copy Document ID
           </button>
           <ToastContainer />
-        </div>
+        </div> */}
 
-        <strong>Collaborators: </strong>
-        {collaborators.map((collaborator, index) => (
-          <span key={index} style={{ marginRight: '10px' }}>
-            <span style={{
-              color: collaborator.isOnline ? 'green' : 'gray',
-              marginRight: '5px'
-            }}>●</span>
-            <span style={{
-              fontWeight: collaborator.username === document.owner ? 'bold' : 'normal'
-            }}>
-              {collaborator.username}
+        {/* Collaborators List */}
+        <strong className="block text-gray-700 mb-2">Collaborators:</strong>
+        <div className="flex flex-wrap">
+          {collaborators.map((collaborator, index) => (
+            <span key={index} className="flex items-center mr-4 mb-2">
+              <span
+                className={`mr-2 text-lg ${collaborator.isOnline ? 'text-green-500' : 'text-gray-400'
+                  }`}
+              >
+                ●
+              </span>
+              <span
+                className={`${collaborator.username === document.owner
+                    ? 'font-bold'
+                    : 'font-normal'
+                  } text-gray-700`}
+              >
+                {collaborator.username}
+              </span>
             </span>
-          </span>
-        ))}
+          ))}
+        </div>
       </div>
+
+      {/* Document Content Area */}
       <textarea
         value={document.content}
         onChange={handleContentChange}
-        style={{ width: '100%', height: '400px' }}
+        className="w-full h-96 p-4 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
       />
     </div>
+
   );
 };
 
